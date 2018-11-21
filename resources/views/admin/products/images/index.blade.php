@@ -31,12 +31,21 @@
     <div class="col-md-4">
         <div class="panel panel-default">
           <div class="panel-body">
-            <img src="{{ $images->url }}" width="250" height="250" >
-            <form action="" method="post">
-                {{ csrf_field() }}
-                {{ method_field('DELETE') }}
-                <input type="hidden" name="image_id" value="{‌{ $images->id }}">   
-                <button type="submit" class="btn btn-danger btn-round">Eliminar imagen</button>
+            <img src="{{$images->url}}" width="250" height="250" >
+            <form method="post" action="">
+            {{ csrf_field() }}
+            {{ method_field('DELETE') }}
+            <input type="hidden" name="image_id" value="{{$images->id}}">                   
+            <button type="submit" class="btn btn-danger btn-round">Eliminar imagen</button>
+            @if($images->featured)
+            <button type="button" class="btn btn-info btn-fab btn-fab-mini btn-round" rel="tooltip" title="Imagen destacada de este producto">
+                <i class="material-icons">favorite</i>
+            </button>
+            @else
+            <a href="{{url('/admin/products/'.$producthernandez->id.'/images/select/'.$images->id)}}" class="btn btn-primary btn-fab btn-fab-mini btn-round">
+                <i class="material-icons">favorite</i>
+            </a>
+            @endif
 
             </form>
             
@@ -58,3 +67,6 @@
 @include('includes.footer')
 
 @endsection
+
+
+<!-- esta vista se maneja desde losde los Controllers y la vista wed al igual que muchas otras -->

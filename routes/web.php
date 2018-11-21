@@ -22,6 +22,8 @@ Route::delete('/products/{id}', 'ProductControllerhernandez@destroy');//formular
 Route::get('/products/{id}/images', 'ImagesControllerhernandez@index');
 Route::Post('/products/{id}/images', 'ImagesControllerhernandez@store'); //registrar
 Route::delete('/products/{id}/images', 'ImagesControllerhernandez@destroy');//formulario eliminar
+
+Route::get('/products/{id}/images/select/{image}', 'ImagesControllerhernandez@select');  //Destacar una imagen
     
 });
 

@@ -8,3 +8,6 @@ $factory->define(App\ProductImage::class, function (Faker $faker) {
         'product_id'=> $faker->numberBetween(1, 100)
     ];
 });
+
+
+

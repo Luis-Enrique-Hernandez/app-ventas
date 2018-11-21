@@ -12,7 +12,7 @@ class ImagesControllerhernandez extends Controller
     public function index($id)
     {
     	$producthernandez=Product::find($id);
-    	$imageshernandez=$producthernandez->image;
+    	$imageshernandez=$producthernandez->image()->orderBy('featured', 'desc')->get();
     	return view('admin.products.images.index')->with(compact('producthernandez', 'imageshernandez'));
     }
     public function store(Request $request, $id)
@@ -38,17 +38,31 @@ class ImagesControllerhernandez extends Controller
     public function destroy(Request $request, $id)
     {
     	// eliminar el archivo
-    	$productImage=ProductImage::find($request->image_id);
-    	if (substr( $productImage->image, 0, 4)==="http" ) {
-    	$deleted=true;
-    } else {
-    	$fullPath=public_path() . '/images/products/' . $productImage->image;
-    	$deleted=File::delete($fullPath);
-          }
+    	$productImage=ProductImage::find($request->input('image_id'));
+    	if (substr( $productImage->image,0,4)==="http" )
+    	 {
+    		$deleted=true;
+    	 } else {
+			    	$fullPath=public_path() . '/images/products/' . $productImage->image;
+			    	$deleted=File::delete($fullPath);
+         		}
 
-    if ($deleted) {
-    	$productImage->delete();
+	    if ($deleted) 
+	    {
+	    	$productImage->delete();
+	    }
+               return back();
     }
-    return back();
+
+    public function select($id, $image)
+    {
+    	ProductImage::where('product_id', $id)->update([
+    		'featured'=> false
+    	]);
+    	$productImage=ProductImage::find($image);
+    	$productImage->featured=true;
+    	$productImage->save();
+    	return back();
+
     }
 }
